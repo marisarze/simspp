@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Untitled</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'simspp/assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'simspp/assets/fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'simspp/assets/css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'simspp/assets/css/untitled.css' %}">
+</head>
+
+<body style="background-color: rgb(220,220,220);">
+    <div class="container text-center">
+        <p style="font-size: 20px;">This is a template for plotting the reflection of various structures based on fresnel formulas.</p>
+    </div>
+    <div class="container-fluid">
+        <div class="row no-gutters">
+            <div class="col-4">
+                <div style="background-color: #ffffff;border-radius: 20px;padding: 15px;margin: 15px;">
+                    <div class="row">
+                        <div class="col-1" style="padding: 0px;"><button class="btn btn-sm border-primary" type="button"><i class="fa fa-minus" style="font-size: 12px;color: rgb(3,162,0);"></i></button></div>
+                        <div class="col-10 text-left" style="padding: 0px;">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th>Structure name</th>
+                                            <th>Created</th>
+                                            <th>show plots<br></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="height: 20px;">
+                                            <td>Bk7()/Ag(50nm)/Ag2O3(2nm)</td>
+                                            <td>18/02/2021 16:17</td>
+                                            <td class="text-center"><button class="btn btn-primary" type="button" style="font-size: 12px;display: inline-block;margin: 1px;">simple</button><button class="btn btn-primary" type="button" style="font-size: 12px;display: inline-block;margin: 1px;">contour</button></td>
+                                        </tr>
+                                        <tr style="height: 20px;">
+                                            <td>MgO()/FePd(20nm)<br></td>
+                                            <td>05/03/2021 09:58<br><br></td>
+                                            <td class="text-center"><button class="btn btn-primary" type="button" style="font-size: 12px;display: inline-block;margin: 1px;">simple</button><button class="btn btn-primary" type="button" style="font-size: 12px;display: inline-block;margin: 1px;">contour</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="background-color: #ffffff;border-radius: 20px;margin: 15px;">
+                    <p class="text-center" style="font-size: 20px;">Structure creating:&nbsp;</p>
+                    <form style="margin-top: 15px;font-size: 12px;">
+                        <div style="background-color: #ccbf8e;">
+                            <div class="form-row">
+                                <div class="col-1"><button class="btn btn-sm border-primary" type="button"><i class="fa fa-minus" style="font-size: 12px;color: rgb(3,162,0);"></i></button></div>
+                                <div class="col-10 text-justify">
+                                    <p class="text-center" style="font-size: 13px;"><strong>Base Layer #0</strong></p>
+                                    <div class="form-group row"><label class="text-right col-form-label col-4" for="L0_name">matter:</label><input class="form-control col-7" type="text" id="L0_name" placeholder="example: Ag" style="font-size: 12px;"></div>
+                                    <div class="form-group row"><label class="text-right col-form-label col-4" for="L0_name">thickness:</label><input class="form-control col-7" type="text" id="L0_thickness" placeholder="nanometers" style="font-size: 12px;"></div>
+                                    <div class="form-group row"><label class="text-right col-form-label col-4" for="L0_name">Re(n) =</label><input class="form-control col-7" type="text" id="L0_realn" placeholder="A1*x+A2*x^2+A3" style="font-size: 12px;"></div>
+                                    <div class="form-group row"><label class="text-right col-form-label col-4" for="L0_name">parameter values:</label><input class="form-control col-7" type="text" id="L0_realp" placeholder="A1=0.02; A2=0.1; A3=0.5; ...." style="font-size: 12px;"></div>
+                                    <div
+                                        class="form-group row"><label class="text-right col-form-label col-4" for="L0_name">Im(n) =</label><input class="form-control col-7" type="text" id="L0_imagn" placeholder="B1*x+B2*x^2+B3" style="font-size: 12px;"></div>
+                                <div class="form-group row"><label class="text-right col-form-label col-4" for="L0_name">parameter values:<br></label><input class="form-control col-7" type="text" id="L0_imagp" placeholder="B1=0.02; B2=0.1; B3=0.5; ...." style="font-size: 12px;"></div>
+                            </div>
+                            <div class="col-1 text-right"><button class="btn btn-sm border rounded-0 border-danger" type="button"><i class="fa fa-remove" style="font-size: 12px;color: rgb(255,15,0);"></i></button></div>
+                        </div>
+                        <div class="col text-right"><button class="btn btn-sm border-dark" type="button" style="background-color: #ffffff;"><i class="fa fa-plus" style="font-size: 16px;color: rgb(3,162,0);"></i>&nbsp;New</button><button class="btn btn-sm border-dark" type="button"
+                                style="background-color: #ffb038;"><i class="fa fa-plus" style="font-size: 16px;color: rgb(3,162,0);"></i>&nbsp;Existing</button><button class="btn btn-sm border-dark" type="button" style="background-color: #f093ff;"><i class="fa fa-plus" style="font-size: 16px;color: rgb(3,162,0);"></i>&nbsp; EMA</button></div>
+                </div>
+                <div style="background-color: #f8acff;">
+                    <div class="form-row">
+                        <div class="col-1"><button class="btn btn-sm border-primary" type="button"><i class="fa fa-minus" style="font-size: 12px;color: rgb(3,162,0);"></i></button></div>
+                        <div class="col-10 text-center">
+                            <p class="text-center" style="font-size: 13px;"><strong>EMA Layer #1</strong></p>
+                            <div class="form-group row"><label class="text-right col-form-label col-4" for="L1_thickness">thickness:</label><input class="form-control col-7" type="text" id="L1_thickness" placeholder="nanometers" style="font-size: 12px;"></div>
+                            <div class="form-group row"><label class="text-right col-form-label col-4" for="L0_name">Component #1:</label><input class="form-control col-5" type="search" id="L1_thickness" placeholder="layer name" style="font-size: 12px;"><input class="form-control col-2"
+                                    type="text" style="font-size: 12px;" placeholder="fraction;"></div>
+                            <div class="form-group row"><label class="text-right col-form-label col-4" for="L0_name">Component #2:</label><input class="form-control col-5" type="search" id="L1_thickness" placeholder="layer name" style="font-size: 12px;"><input class="form-control col-2"
+                                    type="text" style="font-size: 12px;" placeholder="fraction;"></div><button class="btn btn-sm border-dark" type="button" style="background-color: #ffffff;"><i class="fa fa-plus" style="font-size: 16px;color: rgb(3,162,0);"></i>&nbsp;Add component</button></div>
+                        <div
+                            class="col-1 text-right"><button class="btn btn-sm border rounded-0 border-danger" type="button"><i class="fa fa-remove" style="font-size: 12px;color: rgb(255,15,0);"></i></button></div>
+                </div>
+                <div class="col text-right"><button class="btn btn-sm border-dark" type="button" style="background-color: #ffffff;"><i class="fa fa-plus" style="font-size: 16px;color: rgb(3,162,0);"></i>&nbsp;New</button><button class="btn btn-sm border-dark" type="button" style="background-color: #ffb038;"><i class="fa fa-plus" style="font-size: 16px;color: rgb(3,162,0);"></i>&nbsp;Existing</button>
+                    <button
+                        class="btn btn-sm border-dark" type="button" style="background-color: #f093ff;"><i class="fa fa-plus" style="font-size: 16px;color: rgb(3,162,0);"></i>&nbsp; EMA</button>
+                </div>
+            </div><button class="btn btn-success" type="button">Save</button></form>
+        </div>
+    </div>
+    <div class="col-6" style="margin: 0px 0px 15px 0px;">
+        <div style="margin: 15px;">
+            <div style="margin: 15px;">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link active" href="#simple" data-toggle="tab">R(alpha)</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contour" data-toggle="tab">R(lambda, alpha)<br></a></li>
+                </ul>
+            </div>
+            <div class="tab-content" style="background-color: #ffffff;">
+                <div id="simple" class="container tab-pane fade" style="border-radius: 25px;width: 900px;height: 800px;"><button class="btn btn-sm border-dark" type="button" style="background-color: #ffffff;"><i class="fa fa-download" style="font-size: 16px;color: rgb(3,162,0);"></i>&nbsp;Download data</button></div>
+                <div id="contour" class="container tab-pane fade"
+                    style="border-radius: 20px;width: 900px;height: 800px;"><button class="btn btn-sm border-dark" type="button" style="background-color: #ffffff;"><i class="fa fa-download" style="font-size: 16px;color: rgb(3,162,0);"></i>&nbsp;Download data</button></div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <script src="{% static 'simspp/assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'simspp/assets/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="{% static 'simspp/assets/js/script.js' %}"></script>
+</body>
+
+</html>
