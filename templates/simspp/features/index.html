@@ -10,12 +10,73 @@
     <link rel="stylesheet" type="text/css" href="{% static 'simspp/features/assets/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'simspp/features/assets/fonts/font-awesome.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'simspp/features/assets/css/styles.css' %}">
+    <script>
+        var url = "{% url 'layer' %}";
+    </script>
 </head>
 
 <body style="background-color: rgb(220,220,220);">
     
-    <p>It's a beautiful life</p>
-    <p id='replacable'>this part will be replaced by layer form</p>
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-auto">
+                <div style="background-color: #ffffff;border-radius: 20px;">
+                    <div class="row" style="margin: 0px;">
+                        <div class="col-1" style="padding: 0px;"><button class="btn btn-sm border-primary float-right" type="button"><i class="fa fa-minus" style="font-size: 12px;color: rgb(3,162,0);"></i></button></div>
+                        <div class="col-10 text-left" style="padding: 0px;">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th>Structure name</th>
+                                            <th>Created</th>
+                                            <th>show plots<br /></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="height: 20px;">
+                                            <td>Bk7()/Ag(50nm)/Ag2O3(2nm)</td>
+                                            <td>18/02/2021 16:17</td>
+                                            <td class="text-center"><button class="btn btn-primary" type="button" style="font-size: 12px;display: inline-block;margin: 1px;">simple</button><button class="btn btn-primary" type="button" style="font-size: 12px;display: inline-block;margin: 1px;">contour</button></td>
+                                        </tr>
+                                        <tr style="height: 20px;">
+                                            <td>MgO()/FePd(20nm)<br /></td>
+                                            <td>05/03/2021 09:58<br /><br /></td>
+                                            <td class="text-center"><button class="btn btn-primary" type="button" style="font-size: 12px;display: inline-block;margin: 1px;">simple</button><button class="btn btn-primary" type="button" style="font-size: 12px;display: inline-block;margin: 1px;">contour</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="structure_constructor" style="max-width:900px">
+                    <p class="text-center" style="font-size: 20px;">Structure creating: </p>
+                    <form style="margin-top: 15px;font-size: 12px;">
+                        <div id="layers_container" style="margin: 0px;padding: 0px;"></div>
+                        <div><button class="btn btn-primary" type="submit">Submit</button><button class="btn btn-dark float-right" type="button">Clear all</button></div>
+                    </form>
+                </div>
+            </div>
+            <div class="col">
+                <div style="margin: 15px;">
+                    <div>
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item"><a class="nav-link active" href="#simple" data-toggle="tab">R(alpha)</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#contour" data-toggle="tab">R(lambda, alpha)<br /></a></li>
+                        </ul>
+                    </div>
+                    <div class="tab-content" style="background-color: #ffffff;">
+                        <div id="simple" class="container tab-pane fade" style="border-radius: 25px;width: 900px;height: 800px;"><button class="btn btn-sm border-dark" type="button" style="background-color: #ffffff;"><i class="fa fa-download" style="font-size: 16px;color: rgb(3,162,0);"></i> Download data</button></div>
+                        <div id="contour" class="container tab-pane fade"
+                            style="border-radius: 20px;width: 900px;height: 800px;"><button class="btn btn-sm border-dark" type="button" style="background-color: #ffffff;"><i class="fa fa-download" style="font-size: 16px;color: rgb(3,162,0);"></i> Download data</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script src="{% static 'simspp/features/assets/js/jquery.min.js' %}"></script>
     <script src="{% static 'simspp/features/assets/bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>

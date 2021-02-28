@@ -7,5 +7,11 @@ def index(request):
 def features_index(request):
     return render(request, 'simspp/features/index.html')
 
-def layer(request):
+def load_layer(request):
     return render(request, 'simspp/features/layer.html')
+
+def load_base(request):
+    return render(request, 'simspp/features/base.html')
+
+def load_ema(request):
+    return render(request, 'simspp/features/ema.html')

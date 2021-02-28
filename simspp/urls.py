@@ -18,9 +18,11 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', index),
-    path('features/', features_index),
-    path('features/layer/', layer),
+    path('admin/', admin.site.urls, name='admin_site'),
+    path('', index, name='index'),
+    path('features/', features_index, name='features'),
+    path('features/layer/', load_layer, name='layer'),
+    path('features/base/', load_base, name='base_template'),
+    path('features/ema/', load_ema, name='ema_template'),
 
 ]
