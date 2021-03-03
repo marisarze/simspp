@@ -1,0 +1,115 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'simspp/features/assets/bootstrap/css/bootstrap.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'simspp/features/assets/fonts/font-awesome.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'simspp/features/assets/css/styles.css' %}"> -->
+<template id="ema_description">
+    <div class="row" style="margin: 15px;">
+        <div class="col">
+            <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">thichness</span></div><input class="form-control" type="text" />
+                <div class="input-group-append"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin: 15px;">
+        <div class="col col-sm-12 col-xl-6 col-md-6">
+            <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">matter</span></div><input class="form-control" type="text" />
+                <div class="input-group-append">
+                    <div class="dropdown btn-group" role="group"><button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"></button>
+                        <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a class="dropdown-item" role="presentation" href="#">Third Item</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-sm-12 col-xl-6 col-md-6">
+            <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">fraction</span></div><input class="form-control" type="text" />
+                <div class="input-group-append"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin: 15px;">
+        <div class="col col-sm-12 col-xl-6 col-md-6">
+            <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">matter</span></div><input class="form-control" type="text" />
+                <div class="input-group-append">
+                    <div class="dropdown btn-group" role="group"><button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"></button>
+                        <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a class="dropdown-item" role="presentation" href="#">Third Item</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-sm-12 col-xl-6 col-md-6">
+            <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">fraction</span></div><input class="form-control" type="text" />
+                <div class="input-group-append"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin: 15px;">
+        <div class="col text-center"><button class="btn btn-light btn-sm" type="button" style="background-color: #6ac9ff;"><i class="fa fa-plus-circle"></i> Add component</button></div>
+    </div>
+</template>
+
+<template id="base_description">
+    <input class="d-none" type="file" /><input class="d-none" type="file" />
+    <div class="row" style="margin: 15px;">
+        <div class="col col-sm-12 col-xl-6 col-md-6">
+            <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">matter</span></div><input class="form-control" type="text" />
+                <div class="input-group-append">
+                    <div class="dropdown btn-group" role="group"><button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"></button>
+                        <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a class="dropdown-item" role="presentation" href="#">Third Item</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-sm-12 col-xl-6 col-md-6">
+            <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">thickness</span></div><input class="form-control" type="text" />
+                <div class="input-group-append"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-end" style="margin: 15px;">
+        <div class="col-xl-6 offset-xl-0 col-sm-12 col-xl-6 col-md-6">
+            <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">ℜ<em>e</em> (n)</span></div><input class="form-control" type="text" />
+                <div class="input-group-append"><button class="btn btn-light btn-sm" type="button">Browse <i class="fa fa-upload"></i></button></div>
+            </div>
+        </div>
+        <div class="col col-sm-12 col-xl-6 col-md-6">
+            <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">parameters</span></div><input class="form-control" type="text" placeholder="A1=0.2; A2=0.1; A3=0.05" />
+                <div class="input-group-append"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-end" style="margin: 15px;">
+        <div class="col-xl-6 offset-xl-0 col-xl-6 col-md-6">
+            <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">ℐ<em>m</em> (n)</span></div><input class="form-control" type="text" />
+                <div class="input-group-append"><button class="btn btn-light btn-sm" type>Browse <i class="fa fa-upload"></i></button></div>
+            </div>
+        </div>
+        <div class="col col-xl-6 col-md-6">
+            <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text">parameters</span></div><input class="form-control" type="text" placeholder="B1=0.2; B2=0.1; B3=0.05" />
+                <div class="input-group-append"></div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="layer_description">
+    <div class="row">
+        <div class="col-1 text-right float-left align-self-end col-xs-1" style="padding: 0px;"><button class="btn btn-success text-right border-primary" type="button"><i class="fas fa-plus"></i></button></div>
+        <div class="col" style="background-color: #c9ff9f;padding: 0px;"><button class="btn btn-warning btn-block" type="button"><strong>Base Layer #0</strong><br /></button>
+            <div class="btn-group" role="group" style="margin: 15px 0px 0px 30px;"><button class="btn btn-warning" type="button">Base type</button><button class="btn btn-secondary" type="button">EMA type</button></div>
+            <div class="description"></div>
+            <div style="margin: 15px 15px 15px 30px;"><button class="btn btn-success" type="button">Save</button></div>
+        </div>
+        <div class="col-1 text-left float-right col-xs-1" style="padding: 0px;"><button class="btn btn-danger border rounded-0 border-danger" type="button"><i class="fas fa-times"></i></button></div>
+    </div>
+</template>

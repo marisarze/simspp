@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html>
 
@@ -10,13 +11,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'simspp/features/assets/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'simspp/features/assets/fonts/font-awesome.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'simspp/features/assets/css/styles.css' %}">
-    <script>
-        var url = "{% url 'layer' %}";
-    </script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 </head>
 
 <body style="background-color: rgb(220,220,220);">
+    {% include "layer_contents.html" %}
     
+        
     <div class="container">
         <div class="row no-gutters">
             <div class="col-auto">
