@@ -24,17 +24,60 @@ $(function() {
     // $.get(window.location.href+'layer', function(data){
     //     layer_div = data;
     // })
-
-    function AddLayer(){
+    
+    
+    function get_new_layer(){
         let layer_description = $("#layer_description").html();
-        let base_description = $("#base_description").html();
-
-        layer_element = $(layer_description);
-        base_element = $(base_description);
-        layer_element.find(".description").append(base_element);
-        $("#layers_container").append(layer_element);
+        let layer_element = $(layer_description);
+        layer_element.find(".description").append(get_base_content());
+        return layer_element;
     }
 
-    AddLayer();
-    AddLayer();
+    function get_base_content(){
+        let base_description = $("#base_description").html();
+        return $(base_description);
+    }
+
+    function get_ema_content(){
+        let ema_description = $("#ema_description").html();
+        return $(ema_description);
+    }
+
+    function get_ema_item(){
+        let ema_item_html = $("#ema_item").html();
+        return $(ema_item_html);
+    }
+
+    $(document).on('click', ".plus_layer_btn", function(){
+        $(this).parent().parent().after(get_new_layer());
+    })
+
+    $(document).on('click', ".minus_layer_btn", function(){
+        $(this).parent().parent().remove();
+        if ($("#layers_container .row").length==0)
+        $("#layers_container").append(get_new_layer());
+    })
+
+    $(document).on('click', ".choice_base_btn", function(){
+        let description = $(this).parent().parent().find(".description");
+        description.empty();
+        description.append(get_base_content());
+    })
+
+    $(document).on('click', ".choice_ema_btn", function(){
+        let description = $(this).parent().parent().find(".description");
+        description.empty();
+        description.append(get_ema_content());
+    })
+
+    $(document).on('click', ".add_component_btn", function(){
+        $(this).parent().parent().before(get_ema_item());
+    })
+
+
+    function initialize(){
+        $("#layers_container").append(get_new_layer());
+    }
+
+    initialize();
 });
