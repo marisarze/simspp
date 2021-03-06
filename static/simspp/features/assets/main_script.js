@@ -68,15 +68,15 @@ $(function() {
     $(document).on('click', ".choice_base_btn", function(){
         let base_description = $(this).closest(".layer_body").find(".base_description");
         let ema_description = $(this).closest(".layer_body").find(".ema_description");
-        base_description.show();
-        ema_description.hide();
+        base_description.slideDown(animation_duration);
+        ema_description.slideUp(animation_duration);
     })
 
     $(document).on('click', ".choice_ema_btn", function(){
         let base_description = $(this).closest(".layer_body").find(".base_description");
         let ema_description = $(this).closest(".layer_body").find(".ema_description");
-        base_description.hide();
-        ema_description.show();
+        base_description.slideUp(animation_duration);
+        ema_description.slideDown(animation_duration);
     })
 
     $(document).on('click', ".remove_component_btn", function(){
