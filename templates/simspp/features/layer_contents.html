@@ -1,18 +1,16 @@
-<!-- {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'simspp/features/assets/bootstrap/css/bootstrap.min.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'simspp/features/assets/fonts/font-awesome.min.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'simspp/features/assets/css/styles.css' %}"> --> -->
+{% load static %}
+
 <template id="ema_description">
-<div class="row" style="margin: 15px;">
+    <div class="row" style="margin: 15px;">
         <div class="col">
             <div class="input-group">
-                <div class="input-group-prepend"><span class="input-group-text">thichness</span></div><input type="text" class="form-control" />
+                <div class="input-group-prepend"><span class="input-group-text">thickness</span></div><input type="text" class="form-control" />
                 <div class="input-group-append"></div>
             </div>
         </div>
     </div>
     <div class="row" style="margin: 15px;">
-        <div class="col col-sm-12 col-xl-6 col-md-6">
+        <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
             <div class="input-group">
                 <div class="input-group-prepend"><span class="input-group-text">matter</span></div><input type="text" class="form-control" />
                 <div class="input-group-append">
@@ -22,7 +20,7 @@
                 </div>
             </div>
         </div>
-        <div class="col col-sm-12 col-xl-6 col-md-6">
+        <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
             <div class="input-group">
                 <div class="input-group-prepend"><span class="input-group-text">fraction</span></div><input type="text" class="form-control" />
                 <div class="input-group-append"></div>
@@ -30,7 +28,7 @@
         </div>
     </div>
     <div class="row" style="margin: 15px;">
-        <div class="col col-sm-12 col-xl-6 col-md-6">
+        <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
             <div class="input-group">
                 <div class="input-group-prepend"><span class="input-group-text">matter</span></div><input type="text" class="form-control" />
                 <div class="input-group-append">
@@ -40,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div class="col col-sm-12 col-xl-6 col-md-6">
+        <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
             <div class="input-group">
                 <div class="input-group-prepend"><span class="input-group-text">fraction</span></div><input type="text" class="form-control" />
                 <div class="input-group-append"></div>
@@ -54,7 +52,7 @@
 
 <template id="base_description">
     <div class="row" style="margin: 15px;">
-        <div class="col col-sm-12 col-xl-6 col-md-6">
+        <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
             <div class="input-group">
                 <div class="input-group-prepend"><span class="input-group-text">matter</span></div><input type="text" class="form-control" />
                 <div class="input-group-append">
@@ -64,7 +62,7 @@
                 </div>
             </div>
         </div>
-        <div class="col col-sm-12 col-xl-6 col-md-6">
+        <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
             <div class="input-group">
                 <div class="input-group-prepend"><span class="input-group-text">thickness</span></div><input type="text" class="form-control" />
                 <div class="input-group-append"></div>
@@ -72,13 +70,13 @@
         </div>
     </div>
     <div class="row" style="margin: 15px;">
-        <div class="col-xl-6 offset-xl-0 col-sm-12 col-xl-6 col-md-6">
+        <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
             <div class="input-group">
                 <div class="input-group-prepend"><span class="input-group-text">ℜ<em>e</em> (n)</span></div><input type="text" class="form-control" />
                 <div class="input-group-append"><button class="btn btn-light btn-sm" type="button">Browse <i class="fa fa-upload"></i></button></div>
             </div>
         </div>
-        <div class="col col-sm-12 col-xl-6 col-md-6">
+        <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
             <div class="input-group">
                 <div class="input-group-prepend"><span class="input-group-text">parameters</span></div><input type="text" class="form-control" placeholder="A1=0.2; A2=0.1; A3=0.05" />
                 <div class="input-group-append"></div>
@@ -86,13 +84,13 @@
         </div>
     </div>
     <div class="row" style="margin: 15px;">
-        <div class="col-xl-6 offset-xl-0 col-xl-6 col-md-6">
+        <div class="col col-sm-12 col-xl-6 col-lg-12 col-xs-12 col-md-6">
             <div class="input-group">
                 <div class="input-group-prepend"><span class="input-group-text">ℐ<em>m</em> (n)</span></div><input type="text" class="form-control" />
                 <div class="input-group-append"><button class="btn btn-light btn-sm" type>Browse <i class="fa fa-upload"></i></button></div>
             </div>
         </div>
-        <div class="col col-xl-6 col-md-6">
+        <div class="col col-sm-12 col-xl-6 col-lg-12 col-xs-12 col-md-6">
             <div class="input-group">
                 <div class="input-group-prepend"><span class="input-group-text">parameters</span></div><input type="text" class="form-control" placeholder="B1=0.2; B2=0.1; B3=0.05" />
                 <div class="input-group-append"></div>
@@ -104,18 +102,20 @@
 <template id="layer_description">
     <div class="row">
         <div class="col-1 text-right float-left align-self-end col-xs-1" style="padding: 0px;"><button class="btn btn-success border-primary plus_layer_btn" type="button"><i class="fas fa-plus"></i></button></div>
-        <div class="col" style="background-color: #c9ff9f;padding: 0px;"><button class="btn btn-warning btn-block" type="button"><strong>Base Layer #0</strong><br /></button>
-            <div role="group" class="btn-group" style="margin: 15px 0px 0px 30px;"><button class="btn btn-warning choice_base_btn" type="button">Base type</button><button class="btn btn-secondary choice_ema_btn" type="button">EMA type</button></div>
-            <div class="description"></div>
-            <div style="margin: 15px 15px 15px 30px;"><button class="btn btn-success" type="button">Save</button></div>
+        <div class="col" style="background-color: #c9ff9f;padding: 0px;"><button class="btn btn-warning btn-block layer_name_btn" type="button"><strong>Base Layer #0</strong><br /></button>
+            <div class="layer_body">
+                <div role="group" class="btn-group" style="margin: 15px 0px 0px 30px;"><button class="btn btn-warning choice_base_btn" type="button">Base type</button><button class="btn btn-secondary choice_ema_btn" type="button">EMA type</button></div>
+                <div class="description"></div>
+                <div style="margin: 15px 15px 15px 30px;"><button class="btn btn-success" type="button">Save</button></div>
+            </div>
         </div>
         <div class="col-1 text-left float-right col-xs-1" style="padding: 0px;"><button class="btn btn-danger border rounded-0 border-danger minus_layer_btn" type="button"><i class="fas fa-times"></i></button></div>
     </div>
 </template>
 
 <template id="ema_item">
-    <div class="row text-left" style="margin: 15px;">
-        <div class="col col-sm-12 col-xl-5 col-md-5">
+    <div class="row" style="margin: 15px;">
+        <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
             <div class="input-group">
                 <div class="input-group-prepend"><span class="input-group-text">matter</span></div><input type="text" class="form-control" />
                 <div class="input-group-append">
@@ -125,12 +125,11 @@
                 </div>
             </div>
         </div>
-        <div class="col col-sm-12 col-xl-5 col-md-5">
+        <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
             <div class="input-group">
                 <div class="input-group-prepend"><span class="input-group-text">fraction</span></div><input type="text" class="form-control" />
-                <div class="input-group-append"></div>
+                <div class="input-group-append"><button class="btn btn-warning rounded-circle remove_component_btn" type="button"><i class="fa fa-close"></i></button></div>
             </div>
         </div>
-        <div class="col text-left col-sm-12 col-xl col-md" style="padding: 0px;"><button class="btn btn-dark rounded-circle" type="button"><i class="fa fa-close"></i></button></div>
     </div>
 </template>

@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <title>Layout</title>
+        <link rel="icon" href="{% static 'simspp/assets/icons/sonic.png' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'simspp/features/assets/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'simspp/features/assets/fonts/font-awesome.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'simspp/features/assets/css/styles.css' %}">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    </head>
+
+<body>
+    {% include "layer_contents.html" %}
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-auto">
+                <div style="background-color: #ffffff;border-radius: 20px;"></div>
+                <div id="structure_constructor">
+                    <p class="text-center" style="font-size: 20px;">Structure creating:&nbsp;</p>
+                    <form style="margin-top: 15px;">
+                        <div id="layers_container" style="margin: 0px;padding: 0px;"></div>
+                        <div><button class="btn btn-primary" type="submit">Submit</button><button class="btn btn-dark float-right" type="button">Clear all</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'simspp/features/assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'simspp/features/assets/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="{% static 'simspp/features/assets/main_script.js' %}"></script>
+</body>
+
+</html>

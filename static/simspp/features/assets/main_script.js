@@ -24,7 +24,9 @@ $(function() {
     // $.get(window.location.href+'layer', function(data){
     //     layer_div = data;
     // })
-    
+    var animation_duration = 500;
+    var structure_cache = {};
+
     
     function get_new_layer(){
         let layer_description = $("#layer_description").html();
@@ -49,13 +51,18 @@ $(function() {
     }
 
     $(document).on('click', ".plus_layer_btn", function(){
-        $(this).parent().parent().after(get_new_layer());
+        let some_new = get_new_layer().toggle();
+        $(this).parent().parent().after(some_new);
+        some_new.toggle(animation_duration);
     })
 
     $(document).on('click', ".minus_layer_btn", function(){
-        $(this).parent().parent().remove();
-        if ($("#layers_container .row").length==0)
-        $("#layers_container").append(get_new_layer());
+        let target = $(this).parent().parent();
+        target.toggle(animation_duration, ()=>(target.remove()));
+        if ($("#layers_container >.row").length<2){
+            $("#layers_container").append(get_new_layer());
+        }
+        
     })
 
     $(document).on('click', ".choice_base_btn", function(){
@@ -70,8 +77,21 @@ $(function() {
         description.append(get_ema_content());
     })
 
+    $(document).on('click', ".remove_component_btn", function(){
+        let target = $(this).closest($(".row"));
+        target.toggle(animation_duration, ()=>(target.remove));
+    })
+
     $(document).on('click', ".add_component_btn", function(){
-        $(this).parent().parent().before(get_ema_item());
+        let new_item = get_ema_item();
+        new_item.toggle();
+        let target = $(this).parent().parent();
+        target.before(new_item);
+        new_item.toggle(animation_duration);
+    })
+
+    $(document).on('click', ".layer_name_btn", function(){
+        $(this).next().toggle(animation_duration);
     })
 
 
