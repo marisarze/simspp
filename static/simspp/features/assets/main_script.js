@@ -31,7 +31,7 @@ $(function() {
     function get_new_layer(){
         let layer_description = $("#layer_description").html();
         let layer_element = $(layer_description);
-        layer_element.find(".description").append(get_base_content());
+        layer_element.find(".ema_description").hide();
         return layer_element;
     }
 
@@ -66,15 +66,17 @@ $(function() {
     })
 
     $(document).on('click', ".choice_base_btn", function(){
-        let description = $(this).parent().parent().find(".description");
-        description.empty();
-        description.append(get_base_content());
+        let base_description = $(this).closest(".layer_body").find(".base_description");
+        let ema_description = $(this).closest(".layer_body").find(".ema_description");
+        base_description.show();
+        ema_description.hide();
     })
 
     $(document).on('click', ".choice_ema_btn", function(){
-        let description = $(this).parent().parent().find(".description");
-        description.empty();
-        description.append(get_ema_content());
+        let base_description = $(this).closest(".layer_body").find(".base_description");
+        let ema_description = $(this).closest(".layer_body").find(".ema_description");
+        base_description.hide();
+        ema_description.show();
     })
 
     $(document).on('click', ".remove_component_btn", function(){
