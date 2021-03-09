@@ -35,16 +35,6 @@ $(function() {
         return layer_element;
     }
 
-    function get_base_content(){
-        let base_description = $("#base_description").html();
-        return $(base_description);
-    }
-
-    function get_ema_content(){
-        let ema_description = $("#ema_description").html();
-        return $(ema_description);
-    }
-
     function get_ema_item(){
         let ema_item_html = $("#ema_item").html();
         return $(ema_item_html);
@@ -94,6 +84,16 @@ $(function() {
 
     $(document).on('click', ".layer_name_btn", function(){
         $(this).next().toggle(animation_duration);
+    })
+
+    $(document).on('click', "#clear_all_btn", function(){
+        $(".popup_container").removeClass("not_visible");
+        $(".popup_container").addClass("is_visible");
+        // $(".popup_container").position({
+        //     my: "center",
+        //     at: "center",
+        //     of: "#clear_all_btn"
+        //   });
     })
 
 

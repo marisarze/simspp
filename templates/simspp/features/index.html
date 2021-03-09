@@ -15,6 +15,10 @@
 </head>
 
 <body style="background-color: rgb(220,220,220);">
+    <div class="text-center d-inline-block popup_container not_visible" style="background-color: #c0e1ff;width: 30%;">
+        <p style="font-family: 'Archivo Black', sans-serif;">Are you sure you want to clear the form?</p>
+        <div><button class="btn btn-danger btn-lg" type="button" style="width: 100px;">Yes</button><button class="btn btn-info btn-lg" type="button" style="width: 100px;">No</button></div>
+    </div>
     {% include "layer_contents.html" %}
     
         
@@ -57,7 +61,7 @@
                     <div class="form-row">
                         <div class="col col-xs-1"></div>
                         <div class="col-10" style="background-color: #c9ff9f;margin: 0px;padding: 0px;">
-                            <div class="description"><button class="btn btn-primary" type="submit">Submit</button><button class="btn btn-dark float-right" type="button">Clear all</button></div>
+                            <div class="description"><button class="btn btn-primary" id="submit_btn" type="submit">Submit</button><button class="btn btn-dark float-right" id="clear_all_btn" type="button">Clear all</button></div>
                         </div>
                         <div class="col col-xs-1"></div>
                     </div>
