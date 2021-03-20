@@ -1,10 +1,10 @@
 from django.shortcuts import render
 
 
-def index(request):
+def initial_index(request):
     return render(request, 'simspp/index.html')
 
-def features_index(request):
+def index(request):
     return render(request, 'simspp/features/index.html')
 
 def load_layer(request):

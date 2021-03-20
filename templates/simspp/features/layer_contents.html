@@ -1,40 +1,44 @@
 {% load static %}
 
 <template id="layer_description">
-    <div class="row">
+    <div class="row layer">
         <div class="col-1 text-right float-left align-self-end col-xs-1" style="padding: 0px;"><button class="btn btn-success border-primary plus_layer_btn" type="button"><i class="fas fa-plus"></i></button></div>
-        <div class="col" style="background-color: #c9ff9f;padding: 0px;"><button class="btn btn-warning btn-block layer_name_btn" type="button"><strong>Base Layer #0</strong><br /></button>
+        <div class="col" style="background-color: #c9ff9f;padding: 0px;">
+            <div></div><button class="btn btn-warning btn-block layer_name_btn" type="button"><span class="float-left number_part">Text</span><span class="content_part" type="button">Layer</span></button>
             <div class="layer_body">
-                <div class="btn-group" role="group" style="margin: 15px 0px 0px 30px;"><button class="btn btn-warning choice_base_btn" type="button">Base type</button><button class="btn btn-secondary choice_ema_btn" type="button">EMA type</button></div>
-                <div class="base_description"><input class="d-none" type="file" /><input class="d-none" type="file" />
+                <div class="row no-gutters" style="margin: 15px;">
+                    <div class="col text-left col-sm-12 col-md-auto" style="padding: 0px 15px;"><button class="btn btn-warning choice_base_btn" type="button">Base type</button><button class="btn btn-secondary choice_ema_btn" type="button">EMA type</button></div>
+                    <div class="col col-sm-12 col-md-auto" style="padding: 0px 15px;">
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text">thickness</span></div><input type="text" class="form-control" />
+                            <div class="input-group-append"></div>
+                        </div>
+                    </div>
+                </div>
+                <div></div>
+                <div class="base_description"><input type="file" class="d-none" /><input type="file" class="d-none" />
                     <div class="row" style="margin: 15px;">
-                        <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
+                        <div class="col">
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">matter</span></div><input class="form-control" type="text" />
+                                <div class="input-group-prepend"><span class="input-group-text">matter</span></div><input type="text" class="form-control matter_name" placeholder="search or set new" />
                                 <div class="input-group-append">
                                     <div class="dropdown btn-group" role="group"><button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"></button>
-                                        <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a class="dropdown-item" role="presentation" href="#">Third Item</a></div>
+                                        <div role="menu" class="dropdown-menu"><a role="presentation" class="dropdown-item" href="#">First Item</a><a role="presentation" class="dropdown-item" href="#">Second Item</a><a role="presentation" class="dropdown-item" href="#">Third Item</a></div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
-                            <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">thickness</span></div><input class="form-control" type="text" />
-                                <div class="input-group-append"></div>
                             </div>
                         </div>
                     </div>
                     <div class="row" style="margin: 15px;">
                         <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">ℜ<em>e</em> (n)</span></div><input class="form-control" type="text" />
+                                <div class="input-group-prepend"><span class="input-group-text"><em>n</em>(λ [μm])=<br /></span></div><input type="text" class="form-control real_part_function" placeholder="A1*x+A2 or upload data" />
                                 <div class="input-group-append"><button class="btn btn-light btn-sm" type="button">Browse <i class="fa fa-upload"></i></button></div>
                             </div>
                         </div>
                         <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">weights</span></div><input class="form-control" type="text" placeholder="A1=0.2; A2=0.1; A3=0.05" />
+                                <div class="input-group-prepend"><span class="input-group-text">weights</span></div><input type="text" class="form-control real_part_constants" placeholder="A1=0.2; A2=0.1;" />
                                 <div class="input-group-append"></div>
                             </div>
                         </div>
@@ -42,13 +46,13 @@
                     <div class="row" style="margin: 15px;">
                         <div class="col col-sm-12 col-xl-6 col-lg-12 col-xs-12 col-md-6">
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">ℐ<em>m</em> (n)</span></div><input class="form-control" type="text" />
+                                <div class="input-group-prepend"><span class="input-group-text"><em>k</em>(λ [μm])=<br /></span></div><input type="text" class="form-control imag_part_function" placeholder="A1=0.2; A2=0.1;" />
                                 <div class="input-group-append"><button class="btn btn-light btn-sm" type>Browse <i class="fa fa-upload"></i></button></div>
                             </div>
                         </div>
                         <div class="col col-sm-12 col-xl-6 col-lg-12 col-xs-12 col-md-6">
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">weights<br /></span></div><input class="form-control" type="text" placeholder="B1=0.2; B2=0.1; B3=0.05" />
+                                <div class="input-group-prepend"><span class="input-group-text">weights<br /></span></div><input type="text" class="form-control imag_part_constants" placeholder="A1=0.2; A2=0.1;" />
                                 <div class="input-group-append"></div>
                             </div>
                         </div>
@@ -58,25 +62,29 @@
                     <div class="row" style="margin: 15px;">
                         <div class="col">
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">thickness</span></div><input class="form-control" type="text" />
-                                <div class="input-group-append"></div>
+                                <div class="input-group-prepend"><span class="input-group-text">search</span></div><input type="text" class="form-control ema_name" />
+                                <div class="input-group-append">
+                                    <div class="dropdown btn-group" role="group"><button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"></button>
+                                        <div role="menu" class="dropdown-menu"><a role="presentation" class="dropdown-item" href="#">First Item</a><a role="presentation" class="dropdown-item" href="#">Second Item</a><a role="presentation" class="dropdown-item" href="#">Third Item</a></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row" style="margin: 15px;">
                         <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">matter</span></div><input class="form-control" type="text" />
+                                <div class="input-group-prepend"><span class="input-group-text">matter</span></div><input type="text" class="form-control component_name" />
                                 <div class="input-group-append">
                                     <div class="dropdown btn-group" role="group"><button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"></button>
-                                        <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a class="dropdown-item" role="presentation" href="#">Third Item</a></div>
+                                        <div role="menu" class="dropdown-menu"><a role="presentation" class="dropdown-item" href="#">First Item</a><a role="presentation" class="dropdown-item" href="#">Second Item</a><a role="presentation" class="dropdown-item" href="#">Third Item</a></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">fraction</span></div><input class="form-control" type="text" />
+                                <div class="input-group-prepend"><span class="input-group-text">fraction</span></div><input type="text" class="form-control fraction" />
                                 <div class="input-group-append"></div>
                             </div>
                         </div>
@@ -84,26 +92,26 @@
                     <div class="row" style="margin: 15px;">
                         <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">matter</span></div><input class="form-control" type="text" />
+                                <div class="input-group-prepend"><span class="input-group-text">matter</span></div><input type="text" class="form-control component_name" />
                                 <div class="input-group-append">
                                     <div class="dropdown btn-group" role="group"><button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"></button>
-                                        <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a class="dropdown-item" role="presentation" href="#">Third Item</a></div>
+                                        <div role="menu" class="dropdown-menu"><a role="presentation" class="dropdown-item" href="#">First Item</a><a role="presentation" class="dropdown-item" href="#">Second Item</a><a role="presentation" class="dropdown-item" href="#">Third Item</a></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">fraction</span></div><input class="form-control" type="text" />
+                                <div class="input-group-prepend"><span class="input-group-text">fraction</span></div><input type="text" class="form-control fraction" />
                                 <div class="input-group-append"></div>
                             </div>
                         </div>
                     </div>
                     <div class="row" style="margin: 15px;">
-                        <div class="col text-center"><button class="btn btn-light btn-sm add_component_btn" type="button" style="background-color: #6ac9ff;"><i class="fa fa-plus-circle"></i> Add component</button></div>
+                        <div class="col text-center"><button class="btn btn-light add_component_btn" type="button" style="background-color: #6ac9ff;"><i class="fa fa-plus-circle"></i> Add component</button></div>
                     </div>
                 </div>
-                <div style="margin: 15px 15px 15px 30px;"><button class="btn btn-success" type="button">Save</button></div>
+                <div style="margin: 15px 15px 15px 30px;"><button class="btn btn-success save_layer_btn" type="button">Save</button></div>
             </div>
         </div>
         <div class="col-1 text-left float-right col-xs-1" style="padding: 0px;"><button class="btn btn-danger border rounded-0 border-danger minus_layer_btn" type="button"><i class="fas fa-times"></i></button></div>
@@ -114,7 +122,7 @@
     <div class="row" style="margin: 15px;">
         <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
             <div class="input-group">
-                <div class="input-group-prepend"><span class="input-group-text">matter</span></div><input type="text" class="form-control" />
+                <div class="input-group-prepend"><span class="input-group-text">matter</span></div><input type="text" class="form-control component_name" />
                 <div class="input-group-append">
                     <div class="dropdown btn-group" role="group"><button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"></button>
                         <div role="menu" class="dropdown-menu"><a role="presentation" class="dropdown-item" href="#">First Item</a><a role="presentation" class="dropdown-item" href="#">Second Item</a><a role="presentation" class="dropdown-item" href="#">Third Item</a></div>
@@ -124,7 +132,7 @@
         </div>
         <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
             <div class="input-group">
-                <div class="input-group-prepend"><span class="input-group-text">fraction</span></div><input type="text" class="form-control" />
+                <div class="input-group-prepend"><span class="input-group-text">fraction</span></div><input type="text" class="form-control fraction" />
                 <div class="input-group-append"><button class="btn btn-warning rounded-circle remove_component_btn" type="button"><i class="fa fa-close"></i></button></div>
             </div>
         </div>
