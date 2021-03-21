@@ -243,28 +243,31 @@ $(function() {
 
 
     $(document).on('click', ".real_data_btn", function(event){
-        console.log($(this).html());
-        if ($(this).html() == 'Browse<i class="fa fa-upload"></i>'){
+        if ($(this).html() == 'Browse&nbsp;<i class="fa fa-upload"></i>'){
             let target = $(this).closest(".layer").find(".real_data_upload").trigger("click");
         } else {
             let layer = $(this).closest(".layer");
             layer[0].N = [];
-            $(this).html('Browse<i class="fa fa-upload"></i>');
+            $(this).html('Browse&nbsp;<i class="fa fa-upload"></i>');
             layer.find(".real_part_function").prop("disabled", false);
+            layer.find(".real_part_function").prop("placeholder", "A1*x+A2 or upload data");
             layer.find(".real_part_constants").prop("disabled", false);
+            $(".real_data_upload").val("");
         }        
     })
 
 
     $(document).on('click', ".imag_data_btn", function(event){
-        if ($(this).html() == 'Browse<i class="fa fa-upload"></i>'){
+        if ($(this).html() == 'Browse&nbsp;<i class="fa fa-upload"></i>'){
             let target = $(this).closest(".layer").find(".imag_data_upload").trigger("click");
         } else {
             let layer = $(this).closest(".layer");
             layer[0].K = [];
-            $(this).html('Browse<i class="fa fa-upload"></i>');
+            $(this).html('Browse&nbsp;<i class="fa fa-upload"></i>');
             layer.find(".imag_part_function").prop("disabled", false);
+            layer.find(".imag_part_function").prop("placeholder", "B1*x+B2 or upload data");
             layer.find(".imag_part_constants").prop("disabled", false);
+            $(".imag_data_upload").val("");
         }
     })
 
