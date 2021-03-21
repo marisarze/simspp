@@ -242,6 +242,121 @@ $(function() {
     })
 
 
+    $(document).on('click', ".real_data_btn", function(event){
+        console.log($(this).html());
+        if ($(this).html() == 'Browse<i class="fa fa-upload"></i>'){
+            let target = $(this).closest(".layer").find(".real_data_upload").trigger("click");
+        } else {
+            let layer = $(this).closest(".layer");
+            layer[0].N = [];
+            $(this).html('Browse<i class="fa fa-upload"></i>');
+            layer.find(".real_part_function").prop("disabled", false);
+            layer.find(".real_part_constants").prop("disabled", false);
+        }        
+    })
+
+
+    $(document).on('click', ".imag_data_btn", function(event){
+        if ($(this).html() == 'Browse<i class="fa fa-upload"></i>'){
+            let target = $(this).closest(".layer").find(".imag_data_upload").trigger("click");
+        } else {
+            let layer = $(this).closest(".layer");
+            layer[0].K = [];
+            $(this).html('Browse<i class="fa fa-upload"></i>');
+            layer.find(".imag_part_function").prop("disabled", false);
+            layer.find(".imag_part_constants").prop("disabled", false);
+        }
+    })
+
+
+    $(document).on('change', ".real_data_upload", function(event){
+        let file = event.target.files[0];
+        let reader = new FileReader();
+        let clicked_button = $(this).closest(".layer").find(".real_data_btn");
+        reader.onload = data_upload_handler(clicked_button, file);
+        reader.readAsText(file);
+    })
+
+
+    $(document).on('change', ".imag_data_upload", function(event){
+        let file = event.target.files[0];
+        let reader = new FileReader();
+        let clicked_button = $(this).closest(".layer").find(".imag_data_btn");
+        reader.onload = data_upload_handler(clicked_button, file);
+        reader.readAsText(file);
+    })
+
+    function data_upload_handler(clicked_button, file){
+        return function (event) { 
+            let raw_data = event.target.result;
+            let layer = clicked_button.closest(".layer");
+            let rpf = layer.find(".real_part_function");
+            let ipf = layer.find(".imag_part_function");
+            let rpc = layer.find(".real_part_constants");
+            let ipc = layer.find(".imag_part_constants");
+            let rdb = layer.find(".real_data_btn");
+            let idb = layer.find(".imag_data_btn");
+
+            let regexp = /(?<wavelength>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[\t]+(?<N>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[\t]+(?<K>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)/g;
+            let matched_iter = raw_data.matchAll(regexp);
+            let matched_array = Array.from(matched_iter);
+            if (matched_array.length>0){
+                let wavelength = [];
+                let N = [];
+                let K = [];
+                for (let result of matched_array){
+                    wavelength.push(Number(result.groups.wavelength));
+                    N.push(Number(result.groups.N))
+                    K.push(Number(result.groups.K))
+                    
+                }
+                layer[0].wavelength = wavelength;
+                layer[0].N = N;
+                layer[0].K = K;
+
+                rpf.prop("placeholder", file.name);
+                ipf.prop("placeholder", file.name);
+                rpf.prop("disabled", true);
+                rpc.prop("disabled", true);
+                ipf.prop("disabled", true);
+                ipc.prop("disabled", true);
+                rdb.html('<i class="fas fa-times">File');
+                idb.html('<i class="fas fa-times">File');
+                return true;
+            }
+            regexp = /(?<wavelength>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[\t]+(?<N>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)/g;
+            matched_iter = raw_data.matchAll(regexp);
+            matched_array = Array.from(matched_iter);
+            if (matched_array.length>0){
+                let wavelength = [];
+                let part = [];
+                for (let result of matched_array){
+                    wavelength.push(Number(result.groups.wavelength));
+                    part.push(Number(result.groups.N))
+                }
+                layer[0].wavelength = wavelength;
+                if (clicked_button.hasClass("real_data_btn")){
+                    layer[0].N = part;
+                    rpf.prop("placeholder", file.name);
+                    rpf.prop("disabled", true);
+                    rpc.prop("disabled", true);
+                    rdb.html('<i class="fas fa-times">File');
+                } else if (clicked_button.hasClass("imag_data_btn")){
+                    layer[0].K = part;
+                    ipf.prop("placeholder", file.name);
+                    ipf.prop("disabled", true);
+                    ipc.prop("disabled", true);
+                    idb.html('<i class="fas fa-times">File');
+                } return true;
+            }
+            return false;              
+        }
+        
+    }
+
+
+
+
     // $("#layers_container").bind('DOMNodeInserted', function() {
     //     alert('node inserted');
     // });
