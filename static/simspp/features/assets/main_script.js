@@ -360,7 +360,7 @@ $(function() {
 
     $(document).on('focusout', ".thickness", function(event){
         let raw_val = $(this).val();
-        let regexp = /(?<thickness>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[\s]*(?<magnitude>([aA]ngstrom)|(mm)|(m)|(nm)|(um)|(cm)|(A)?)/;
+        let regexp = /^(?<thickness>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[\s]*(?<magnitude>([aA]ngstrom)|(mm)|(m)|(nm)|(um)|(cm)|(A)?)/;
         let respect = {nm: 1e-9, A:1e-10, Angstrom:1e-10, mm:1e-3, um:1e-6, cm:1e-2, m:1};
         let matched_array = raw_val.match(regexp);
         //matched_array = Array.from(matched_iter);
