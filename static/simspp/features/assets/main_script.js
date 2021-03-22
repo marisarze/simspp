@@ -358,6 +358,32 @@ $(function() {
     }
 
 
+    $(document).on('focusout', ".thickness", function(event){
+        let raw_val = $(this).val();
+        let regexp = /(?<thickness>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[\s]*(?<magnitude>([aA]ngstrom)|(mm)|(m)|(nm)|(um)|(cm)|(A)?)/;
+        let respect = {nm: 1e-9, A:1e-10, Angstrom:1e-10, mm:1e-3, um:1e-6, cm:1e-2, m:1};
+        let matched_array = raw_val.match(regexp);
+        //matched_array = Array.from(matched_iter);
+        console.log(matched_array);
+        if (matched_array!=null){
+            let thickness = matched_array[1];
+            let magnitude = matched_array[3];
+            if (matched_array[3]==undefined || matched_array[3]==""){
+                $(this).closest(".layer").find(".thickness_part").text(thickness + " m");
+                thickness = Number(thickness);
+            } else {
+                magnitude = magnitude=="Angstrom" ? A : magnitude; 
+                $(this).closest(".layer").find(".thickness_part").text(thickness + " " + magnitude);
+                thickness = Number(thickness)*respect[magnitude];
+            }
+            $(this).closest(".layer")[0].thickness = thickness;
+        } else {
+            $(this).closest(".layer").find(".thickness_part").text(" ");
+            $(this).closest(".layer")[0].thickness = null;
+        }
+    })
+
+
 
 
     // $("#layers_container").bind('DOMNodeInserted', function() {
@@ -370,11 +396,11 @@ $(function() {
     }
 
     initialize();
-    console.log(math.evaluate("a=3"));
-    let scope = {
-        a: 3,
-        b: 4
-    }
-    console.log(scope);
+    // console.log(math.evaluate("a=3"));
+    // let scope = {
+    //     a: 3,
+    //     b: 4
+    // }
+    // console.log(scope);
     
 });
