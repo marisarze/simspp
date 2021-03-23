@@ -168,77 +168,13 @@ $(function() {
         }
     })
 
-    $(".matter_name").keyup(function (){
-        alert('allo');
-    })
-
-    $(document).on('input propertychange paste', ".matter_name", function(){
-        let content_name = $(this).closest(".layer").find('.content_part');
-        content = $(this).val();
-        if (content.length>20) content = content.slice(0,19)+"...";
-        if (content.length==0) content = "Layer";
-        content_name.text(content);
-    })
-
-    $(document).on('input propertychange paste', ".component_name, .fraction", function(){
-        let content_name = $(this).closest(".layer").find('.content_part');
-        let rows = $(this).closest(".ema_description").children();
-        //console.log(rows);
-        let dict = new Object();
-        let result = "Layer";
-        for (row of rows){
-            row = $(row);
-            if (row.children().length>1){
-                let name = row.find(".component_name").val();
-                let fraction = row.find(".fraction").val();
-                console.log(fraction, isNaN(fraction));
-                if (name.length>0 && !isNaN(fraction)){
-                    dict[name] = parseFloat(fraction);
-                }   
-            }
-        }
-        if (!($.isEmptyObject(dict))){
-            result = JSON.stringify(dict);
-            result = result.replace(/"([^"]+)":/g, '$1:');
-        }            
-        content_name.text(result);
-    })
-
-    function get_base_data(layer){
-        console.log('called base get data : ', layer);
-
-        let data = {};
-        data.rfunc = $(layer).find(".real_part_function").val();
-        data.ifunc = $(layer).find(".imag_part_function").val();
-        data.rconst = $(layer).find(".real_part_constants").val();
-        data.iconst = $(layer).find(".imag_part_constants").val();
-        return data;
-    }
-
-    function get_ema_data(layer){
-        console.log('called ema get data: ', layer);
-
-        let data = {};
-        // data.rfunc = $(layer).find(".real_part_function").val();
-        // data.ifunc = $(layer).find(".imag_part_function").val();
-        // data.rconst = $(layer).find(".real_part_constants").val();
-        // data.iconst = $(layer).find(".imag_part_constants").val();
-        return data;
-    }
 
     $(document).on('click', ".save_layer_btn", function(){
         let layer = $(this).closest(".layer")[0];
-        let data;
-        if (layer.type === "base"){
-            data = get_base_data(layer);
-            // if (is_base_valid()){
-            //     data = get_base_data();
-            //     console.log(data);
-            // }
-        } else {
-            data = get_ema_data(layer);
-        }
-        console.log(data);        
+        let layer_data = validate_layer(layer);
+        if (layer_data){
+            console.log("layer_data: ", layer_data)
+        }        
     })
 
 
@@ -247,11 +183,12 @@ $(function() {
             let target = $(this).closest(".layer").find(".real_data_upload").trigger("click");
         } else {
             let layer = $(this).closest(".layer");
+            layer[0].N_wavelength = [];
             layer[0].N = [];
             $(this).html('Browse&nbsp;<i class="fa fa-upload"></i>');
             layer.find(".real_part_function").prop("disabled", false);
             layer.find(".real_part_function").prop("placeholder", "A1*x+A2 or upload data");
-            layer.find(".real_part_constants").prop("disabled", false);
+            layer.find(".real_part_scope").prop("disabled", false);
             $(".real_data_upload").val("");
         }        
     })
@@ -262,11 +199,12 @@ $(function() {
             let target = $(this).closest(".layer").find(".imag_data_upload").trigger("click");
         } else {
             let layer = $(this).closest(".layer");
+            layer[0].K_wavelength = [];
             layer[0].K = [];
             $(this).html('Browse&nbsp;<i class="fa fa-upload"></i>');
             layer.find(".imag_part_function").prop("disabled", false);
             layer.find(".imag_part_function").prop("placeholder", "B1*x+B2 or upload data");
-            layer.find(".imag_part_constants").prop("disabled", false);
+            layer.find(".imag_part_scope").prop("disabled", false);
             $(".imag_data_upload").val("");
         }
     })
@@ -295,12 +233,12 @@ $(function() {
             let layer = clicked_button.closest(".layer");
             let rpf = layer.find(".real_part_function");
             let ipf = layer.find(".imag_part_function");
-            let rpc = layer.find(".real_part_constants");
-            let ipc = layer.find(".imag_part_constants");
+            let rpc = layer.find(".real_part_scope");
+            let ipc = layer.find(".imag_part_scope");
             let rdb = layer.find(".real_data_btn");
             let idb = layer.find(".imag_data_btn");
 
-            let regexp = /(?<wavelength>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[\t]+(?<N>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[\t]+(?<K>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)/g;
+            let regexp = /(?<wavelength>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[ \t]+(?<N>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[ \t]+(?<K>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[ \t]*\R*/gm;
             let matched_iter = raw_data.matchAll(regexp);
             let matched_array = Array.from(matched_iter);
             if (matched_array.length>0){
@@ -313,10 +251,13 @@ $(function() {
                     K.push(Number(result.groups.K))
                     
                 }
-                layer[0].wavelength = wavelength;
+                layer[0].N_wavelength = wavelength;
+                layer[0].K_wavelength = wavelength;
                 layer[0].N = N;
                 layer[0].K = K;
+                if (rpf.val()!=""){
 
+                }
                 rpf.prop("placeholder", file.name);
                 ipf.prop("placeholder", file.name);
                 rpf.prop("disabled", true);
@@ -327,7 +268,7 @@ $(function() {
                 idb.html('<i class="fas fa-times">File');
                 return true;
             }
-            regexp = /(?<wavelength>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[\t]+(?<N>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)/g;
+            regexp = /(?<wavelength>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[ \t]+(?<N>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[ \t]*\R*/g;
             matched_iter = raw_data.matchAll(regexp);
             matched_array = Array.from(matched_iter);
             if (matched_array.length>0){
@@ -340,12 +281,14 @@ $(function() {
                 layer[0].wavelength = wavelength;
                 if (clicked_button.hasClass("real_data_btn")){
                     layer[0].N = part;
+                    layer[0].N_wavelength = wavelength;
                     rpf.prop("placeholder", file.name);
                     rpf.prop("disabled", true);
                     rpc.prop("disabled", true);
                     rdb.html('<i class="fas fa-times">File');
                 } else if (clicked_button.hasClass("imag_data_btn")){
                     layer[0].K = part;
+                    layer[0].K_wavelength = wavelength;
                     ipf.prop("placeholder", file.name);
                     ipf.prop("disabled", true);
                     ipc.prop("disabled", true);
@@ -357,14 +300,61 @@ $(function() {
         
     }
 
+    $(document).on('focusout', ".component_name, .fraction", function(){
+        let content_name = $(this).closest(".layer").find('.content_part');
+        let rows = $(this).closest(".ema_description").children();
+        //console.log(rows);
+        let dict = new Object();
+        let result = "Layer";
+        for (row of rows){
+            row = $(row);
+            if (row.children().length>1){
+                let name = row.find(".component_name").val();
+                let fraction = row.find(".fraction").val();
+                if (name.length>0 && !isNaN(fraction) && fraction.length>0){
+                    dict[name] = parseFloat(fraction);
+                }   
+            }
+        }
+        if (!($.isEmptyObject(dict))){
+            result = JSON.stringify(dict);
+            result = result.replace(/"([^"]+)":/g, '$1:');
+        }            
+        content_name.text(result);
+    })
+
+
+    $(document).on('focusout', ".matter_name", function(){
+        let content_name = $(this).closest(".layer").find('.content_part');
+        content = $(this).val();
+        if (content.length>20) content = content.slice(0,19)+"...";
+        if (content.length==0) content = "Layer";
+        content_name.text(content);
+    })
+
+    $(document).on('keydown', ".matter_name", function(e){
+        if (e.keyCode == 32) {
+            return false;
+        }
+    })
+
+    $(document).on('keydown', ".component_name", function(e){
+        if (e.keyCode == 32) {
+            return false;
+        }
+    })
+
+    $(document).on('keyup paste', ".fraction", function(e){
+        this.value = this.value.replace(/[^0-9]/g, '');
+    })
+    
 
     $(document).on('focusout', ".thickness", function(event){
         let raw_val = $(this).val();
-        let regexp = /^(?<thickness>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[\s]*(?<magnitude>([aA]ngstrom)|(mm)|(m)|(nm)|(um)|(cm)|(A)?)/;
+        let regexp = /^(?<thickness>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[ ]*(?<magnitude>([aA]ngstrom)|(mm)|(m)|(nm)|(um)|(cm)|(A)?)/;
         let respect = {nm: 1e-9, A:1e-10, Angstrom:1e-10, mm:1e-3, um:1e-6, cm:1e-2, m:1};
         let matched_array = raw_val.match(regexp);
         //matched_array = Array.from(matched_iter);
-        console.log(matched_array);
         if (matched_array!=null){
             let thickness = matched_array[1];
             let magnitude = matched_array[3];
@@ -385,6 +375,40 @@ $(function() {
 
 
 
+    // function validate_layer(layer){
+    //     data = new Object();
+    //     layer = $(layer);
+    //     if (layer[0].type==="base"){
+    //         if (layer.find(".real_part_function").prop("disabled")){
+    //             data.N_wavelength = layer[0].N_wavelength;
+    //             data.N = layer[0].N;
+    //             return data;
+    //         }
+    //         let raw_real_func = layer.find(".real_part_function").val();
+    //         let raw_imag_func = layer.find(".real_part_").val();
+    //         if (raw_real_func.length==0){
+    //             layer.find(".real_part_function").addClass("nonvalid");
+    //             return false;
+    //         }
+    //         if (raw_imag_func.length==0){
+    //             layer.find(".real_imag_function").addClass("nonvalid");
+    //             return false;
+    //         }
+    //         let regexp = /(?<param>[a-zA-Z]+\d*) *= *(?<value>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[ ,;]*/gm;
+    //         let matched_iter = raw_real_scope.matchAll(regexp);
+    //         let matched_array = Array.from(matched_iter);
+    //         if (matched_array.length==0)
+                
+    //             let wavelength = [];
+    //         let part = [];
+    //         for (let result of matched_array){
+    //             wavelength.push(Number(result.groups.wavelength));
+    //             part.push(Number(result.groups.N))
+    //             }
+    //         }
+    //     }
+
+    // }
 
     // $("#layers_container").bind('DOMNodeInserted', function() {
     //     alert('node inserted');
@@ -395,6 +419,7 @@ $(function() {
         $("#layers_container").append(get_new_layer());
     }
 
+
     initialize();
     // console.log(math.evaluate("a=3"));
     // let scope = {
@@ -404,3 +429,28 @@ $(function() {
     // console.log(scope);
     
 });
+
+
+// $(document).on('input propertychange paste', ".component_name, .fraction", function(){
+//     let content_name = $(this).closest(".layer").find('.content_part');
+//     let rows = $(this).closest(".ema_description").children();
+//     //console.log(rows);
+//     let dict = new Object();
+//     let result = "Layer";
+//     for (row of rows){
+//         row = $(row);
+//         if (row.children().length>1){
+//             let name = row.find(".component_name").val();
+//             let fraction = row.find(".fraction").val();
+//             console.log(fraction, isNaN(fraction));
+//             if (name.length>0 && !isNaN(fraction)){
+//                 dict[name] = parseFloat(fraction);
+//             }   
+//         }
+//     }
+//     if (!($.isEmptyObject(dict))){
+//         result = JSON.stringify(dict);
+//         result = result.replace(/"([^"]+)":/g, '$1:');
+//     }            
+//     content_name.text(result);
+// })
