@@ -25,10 +25,6 @@ $(function() {
     //     layer_div = data;
     // })
 
-    // const json = JSON.stringify(object);  // {"name":"John Smith"}
-    // console.log(json);
-    // const unquoted = json.replace(/"([^"]+)":/g, '$1:');
-
     $(window).keydown(function(event){
         if(event.keyCode == 13) {
           event.preventDefault();
@@ -77,6 +73,10 @@ $(function() {
         let layer_description = $("#layer_description").html();
         let layer_element = $(layer_description);
         layer_element[0].type = "base";
+        layer_element[0].wavelength = [null,null];
+        layer_element[0].refractive = [null,null];
+        layer_element[0].functions = [null,null];
+        layer_element[0].scopes = [null,null];
         layer_element.find(".ema_description").hide();
         return layer_element;
     }
@@ -91,9 +91,9 @@ $(function() {
     }
 
     $(document).on('click', ".plus_layer_btn", function(){
-        let some_new = get_new_layer().toggle();
-        $(this).closest(".layer").after(some_new);
-        some_new.toggle(animation_duration);
+        let new_layer = get_new_layer().toggle();
+        $(this).closest(".layer").after(new_layer);
+        new_layer.toggle(animation_duration);
     })
 
     $(document).on('click', ".minus_layer_btn", function(){
@@ -178,69 +178,43 @@ $(function() {
     })
 
 
-    $(document).on('click', ".real_data_btn", function(event){
+    $(document).on('click', ".data_btn", function(event){
+        let row = $(this).closest(".base_row");
+        let layer = $(this).closest(".layer");
         if ($(this).html() == 'Browse&nbsp;<i class="fa fa-upload"></i>'){
-            let target = $(this).closest(".layer").find(".real_data_upload").trigger("click");
+            row.find(".data_upload").trigger("click");
         } else {
-            let layer = $(this).closest(".layer");
-            layer[0].N_wavelength = [];
-            layer[0].N = [];
+            let index = layer.find(".base_row").index(row);
+            layer[0].wavelength[index] = [];
+            layer[0].refractive[index] = [];
             $(this).html('Browse&nbsp;<i class="fa fa-upload"></i>');
-            layer.find(".real_part_function").prop("disabled", false);
-            layer.find(".real_part_function").prop("placeholder", "A1*x+A2 or upload data");
-            layer.find(".real_part_scope").prop("disabled", false);
-            $(".real_data_upload").val("");
+            row.find(".function_input").prop("disabled", false);
+            row.find(".scope_input").prop("disabled", false);
+            row.find(".data_upload").val("");
         }        
     })
 
 
-    $(document).on('click', ".imag_data_btn", function(event){
-        if ($(this).html() == 'Browse&nbsp;<i class="fa fa-upload"></i>'){
-            let target = $(this).closest(".layer").find(".imag_data_upload").trigger("click");
-        } else {
-            let layer = $(this).closest(".layer");
-            layer[0].K_wavelength = [];
-            layer[0].K = [];
-            $(this).html('Browse&nbsp;<i class="fa fa-upload"></i>');
-            layer.find(".imag_part_function").prop("disabled", false);
-            layer.find(".imag_part_function").prop("placeholder", "B1*x+B2 or upload data");
-            layer.find(".imag_part_scope").prop("disabled", false);
-            $(".imag_data_upload").val("");
-        }
-    })
-
-
-    $(document).on('change', ".real_data_upload", function(event){
+    $(document).on('change', ".data_upload", function(event){
         let file = event.target.files[0];
         let reader = new FileReader();
-        let clicked_button = $(this).closest(".layer").find(".real_data_btn");
+        let clicked_button = $(this).closest(".base_row").find(".data_btn");
         reader.onload = data_upload_handler(clicked_button, file);
         reader.readAsText(file);
     })
 
-
-    $(document).on('change', ".imag_data_upload", function(event){
-        let file = event.target.files[0];
-        let reader = new FileReader();
-        let clicked_button = $(this).closest(".layer").find(".imag_data_btn");
-        reader.onload = data_upload_handler(clicked_button, file);
-        reader.readAsText(file);
-    })
 
     function data_upload_handler(clicked_button, file){
         return function (event) { 
             let raw_data = event.target.result;
             let layer = clicked_button.closest(".layer");
-            let rpf = layer.find(".real_part_function");
-            let ipf = layer.find(".imag_part_function");
-            let rpc = layer.find(".real_part_scope");
-            let ipc = layer.find(".imag_part_scope");
-            let rdb = layer.find(".real_data_btn");
-            let idb = layer.find(".imag_data_btn");
-
             let regexp = /(?<wavelength>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[ \t]+(?<N>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[ \t]+(?<K>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[ \t]*\R*/gm;
             let matched_iter = raw_data.matchAll(regexp);
             let matched_array = Array.from(matched_iter);
+            let name = file.name;
+            if (file.name.length>20){
+                name = file.name.slice(0,19)+"...";
+            }
             if (matched_array.length>0){
                 let wavelength = [];
                 let N = [];
@@ -251,49 +225,34 @@ $(function() {
                     K.push(Number(result.groups.K))
                     
                 }
-                layer[0].N_wavelength = wavelength;
-                layer[0].K_wavelength = wavelength;
-                layer[0].N = N;
-                layer[0].K = K;
-                if (rpf.val()!=""){
-
-                }
-                rpf.prop("placeholder", file.name);
-                ipf.prop("placeholder", file.name);
-                rpf.prop("disabled", true);
-                rpc.prop("disabled", true);
-                ipf.prop("disabled", true);
-                ipc.prop("disabled", true);
-                rdb.html('<i class="fas fa-times">File');
-                idb.html('<i class="fas fa-times">File');
+                layer[0].wavelength = [wavelength, wavelength];
+                layer[0].refractive = [N, K];
+                layer.find(".function_input").prop("disabled", true);
+                layer.find(".scope_input").prop("disabled", true);
+                layer.find(".data_btn").html('<i class="fas fa-times">'+name);
                 return true;
             }
             regexp = /(?<wavelength>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[ \t]+(?<N>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[ \t]*\R*/g;
             matched_iter = raw_data.matchAll(regexp);
             matched_array = Array.from(matched_iter);
             if (matched_array.length>0){
+                let row = clicked_button.closest(".base_row");
+                let func_input = row.find(".function_input");
+                let scope_input = row.find(".scope_input");
+                let index = layer.find(".base_row").index(row);
                 let wavelength = [];
                 let part = [];
                 for (let result of matched_array){
                     wavelength.push(Number(result.groups.wavelength));
                     part.push(Number(result.groups.N))
                 }
-                layer[0].wavelength = wavelength;
-                if (clicked_button.hasClass("real_data_btn")){
-                    layer[0].N = part;
-                    layer[0].N_wavelength = wavelength;
-                    rpf.prop("placeholder", file.name);
-                    rpf.prop("disabled", true);
-                    rpc.prop("disabled", true);
-                    rdb.html('<i class="fas fa-times">File');
-                } else if (clicked_button.hasClass("imag_data_btn")){
-                    layer[0].K = part;
-                    layer[0].K_wavelength = wavelength;
-                    ipf.prop("placeholder", file.name);
-                    ipf.prop("disabled", true);
-                    ipc.prop("disabled", true);
-                    idb.html('<i class="fas fa-times">File');
-                } return true;
+                layer[0].wavelength[index] = wavelength;
+                layer[0].refractive[index] = part;
+                func_input.prop("disabled", true);
+                scope_input.prop("disabled", true);
+                
+                clicked_button.html('<i class="fas fa-times">'+name);
+                return true;
             }
             return false;              
         }
@@ -375,40 +334,76 @@ $(function() {
 
 
 
-    // function validate_layer(layer){
-    //     data = new Object();
-    //     layer = $(layer);
-    //     if (layer[0].type==="base"){
-    //         if (layer.find(".real_part_function").prop("disabled")){
-    //             data.N_wavelength = layer[0].N_wavelength;
-    //             data.N = layer[0].N;
-    //             return data;
-    //         }
-    //         let raw_real_func = layer.find(".real_part_function").val();
-    //         let raw_imag_func = layer.find(".real_part_").val();
-    //         if (raw_real_func.length==0){
-    //             layer.find(".real_part_function").addClass("nonvalid");
-    //             return false;
-    //         }
-    //         if (raw_imag_func.length==0){
-    //             layer.find(".real_imag_function").addClass("nonvalid");
-    //             return false;
-    //         }
-    //         let regexp = /(?<param>[a-zA-Z]+\d*) *= *(?<value>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[ ,;]*/gm;
-    //         let matched_iter = raw_real_scope.matchAll(regexp);
-    //         let matched_array = Array.from(matched_iter);
-    //         if (matched_array.length==0)
-                
-    //             let wavelength = [];
-    //         let part = [];
-    //         for (let result of matched_array){
-    //             wavelength.push(Number(result.groups.wavelength));
-    //             part.push(Number(result.groups.N))
-    //             }
-    //         }
-    //     }
+    function validate_layer(layer){
+        let data = new Object();
+        layer = $(layer);
+        data.type = layer[0].type;
+        if (!layer[0].thickness){
+            layer.find(".thickness").addClass("nonvalid");
+            return false;
+        }
+        data.thickness = layer[0].thickness;        
+        if (layer[0].type==="base"){
+            let matter_name = layer.find(".matter_name").val();
+            if (matter_name.length==0){
+                layer.find(".matter_name").addClass("nonvalid");
+                return false;
+            }
+            data.matter_name = matter_name;
+            data.wavelength = [null,null];
+            data.refractive = [null,null];
+            data.functions = [null,null];
+            data.scopes = [null,null];
+            let rows = layer.find(".base_row");
+            for (let row of rows){
+                row = $(row);
+                console.log("row is: ", row);
+                let index = rows.index(row);
+                if (row.find(".function_input").prop("disabled")){
+                    data.wavelength[index] = layer[0].wavelength[index];
+                    data.refractive[index] = layer[0].refractive[index];
+                } else {
+                    let raw_function = row.find(".function_input").val();
+                    if (raw_function.length==0){
+                        row.find(".function_input").addClass("nonvalid");
+                        return false;
+                    }
+                    let raw_scope = row.find(".scope_input").val();
+                    if (raw_scope.length==0){
+                        row.find(".scope_input").addClass("nonvalid");
+                        return false;
+                    }
+                    let regexp = /(?<param>[a-zA-Z]+\d*) *= *(?<value>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[ ,;]*/gm;
+                    let matched_iter = raw_scope.matchAll(regexp);
+                    let matched_array = Array.from(matched_iter);
+                    let scope = new Object();
+                    if (matched_array.length>0)
+                        for (let result of matched_array){
+                            scope[result.groups.param] = result.groups.value; 
+                        }
+                    
+                    regexp = /[,;]+/g;
+                    raw_function = raw_function.replace(regexp, "");
+                    try {
+                        let parsed_func = math.parse(raw_function).compile().evaluate;
+                        let waves = [0.4, 0.56, 0.8, 1]
+                        for (wave of waves){
+                            scope.x = wave;
+                            if (isNaN(parsed_func(scope))) return false;
+                        } 
+                    } catch {
+                        row.find(".function_input").addClass("nonvalid");
+                        row.find(".scope_input").addClass("nonvalid");
+                        return false;
 
-    // }
+                    }
+                    data.scopes[index] = scope;
+                    data.functions[index] = raw_function;
+                }
+            }
+        }
+        return data;
+    }
 
     // $("#layers_container").bind('DOMNodeInserted', function() {
     //     alert('node inserted');

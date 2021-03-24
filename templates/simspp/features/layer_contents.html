@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div></div>
-                <div class="base_description"><input class="d-none real_data_upload" type="file" /><input class="d-none imag_data_upload" type="file" />
+                <div class="base_description">
                     <div class="row" style="margin: 15px;">
                         <div class="col">
                             <div class="input-group">
@@ -29,30 +29,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="margin: 15px;">
+                    <div class="row base_row" style="margin: 15px;">
                         <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text"><em>n</em>(λ [μm])=<br /></span></div><input class="form-control real_part_function" type="text" placeholder="A1*x+A2 or upload data" />
-                                <div class="input-group-append"><button class="btn btn-light btn-sm real_data_btn" type="button">Browse <i class="fa fa-upload"></i></button></div>
-                            </div>
-                        </div>
+                                <div class="input-group-prepend"><span class="input-group-text"><em>n</em>(λ [μm])=<br /></span></div><input class="form-control function_input" type="text" placeholder="A*x+B or upload data" />
+                                <div class="input-group-append"><button class="btn btn-light btn-sm data_btn" type="button">Browse <i class="fa fa-upload"></i></button></div>
+                            </div><input class="d-none data_upload" type="file" /></div>
                         <div class="col col-sm-12 col-xl-6 col-lg-12 col-md-6">
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">weights</span></div><input type="text" class="form-control real_part_scope" placeholder="A1=0.2; A2=0.1;" />
+                                <div class="input-group-prepend"><span class="input-group-text">weights</span></div><input class="form-control scope_input" type="text" placeholder="A=0.2; B=0.1;" />
                                 <div class="input-group-append"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="margin: 15px;">
+                    <div class="row base_row" style="margin: 15px;">
                         <div class="col col-sm-12 col-xl-6 col-lg-12 col-xs-12 col-md-6">
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text"><em>k</em>(λ [μm])=<br /></span></div><input class="form-control imag_part_function" type="text" placeholder="B1*x+B2 or upload data" />
-                                <div class="input-group-append"><button class="btn btn-light btn-sm imag_data_btn" type="button">Browse <i class="fa fa-upload"></i></button></div>
-                            </div>
-                        </div>
+                                <div class="input-group-prepend"><span class="input-group-text"><em>k</em>(λ [μm])=<br /></span></div><input class="form-control function_input" type="text" placeholder="A*x+B or upload data" />
+                                <div class="input-group-append"><button class="btn btn-light btn-sm data_btn" type="button">Browse <i class="fa fa-upload"></i></button></div>
+                            </div><input class="d-none data_upload" type="file" /></div>
                         <div class="col col-sm-12 col-xl-6 col-lg-12 col-xs-12 col-md-6">
                             <div class="input-group">
-                                <div class="input-group-prepend"><span class="input-group-text">weights<br /></span></div><input type="text" class="form-control imag_part_scope" placeholder="A1=0.2; A2=0.1;" />
+                                <div class="input-group-prepend"><span class="input-group-text">weights<br /></span></div><input class="form-control scope_input" type="text" placeholder="A=0.2; B=0.1;" />
                                 <div class="input-group-append"></div>
                             </div>
                         </div>
