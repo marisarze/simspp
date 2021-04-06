@@ -169,15 +169,6 @@ $(function() {
     })
 
 
-    $(document).on('click', ".save_layer_btn", function(){
-        let layer = $(this).closest(".layer")[0];
-        let layer_data = validate_layer(layer);
-        if (layer_data){
-            console.log("layer_data: ", layer_data)
-        }        
-    })
-
-
     $(document).on('click', ".data_btn", function(event){
         let row = $(this).closest(".base_row");
         let layer = $(this).closest(".layer");
@@ -333,6 +324,28 @@ $(function() {
     })
 
 
+    $(document).on('click', ".save_layer_btn", function(){
+        let layer = $(this).closest(".layer")[0];
+        let layer_data = validate_layer(layer);
+        if (layer_data){
+            console.log("layer_data: ", layer_data)
+            send_data(layer_data);
+        }        
+    })
+
+
+    function send_data(target){
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            url: "/ajax/handle_layer",
+            data: JSON.stringify(target),
+            success: function(result) {
+                    $(".info_message").text(JSON.stringify(result));
+                    }
+        });
+    };
 
     function validate_layer(layer){
         let data = new Object();
@@ -404,6 +417,10 @@ $(function() {
         }
         return data;
     }
+
+    
+    
+    
 
     // $("#layers_container").bind('DOMNodeInserted', function() {
     //     alert('node inserted');

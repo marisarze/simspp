@@ -24,5 +24,6 @@ urlpatterns = [
     path('features/layer/', load_layer, name='layer'),
     path('features/base/', load_base, name='base_template'),
     path('features/ema/', load_ema, name='ema_template'),
+    path('ajax/handle_layer', handle_layer, name="handle_layer_url")
 
 ]

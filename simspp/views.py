@@ -1,5 +1,7 @@
 from django.shortcuts import render
-
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_protect
+import json
 
 def initial_index(request):
     return render(request, 'simspp/index.html')
@@ -15,3 +17,13 @@ def load_base(request):
 
 def load_ema(request):
     return render(request, 'simspp/features/ema.html')
+
+@csrf_protect
+def handle_layer(request):
+    some_dict = request.GET.dict()
+    print(some_dict)
+    #print("some is: ", some_dict["refractive[0][]"])
+    if request.is_ajax:
+        return JsonResponse({"message": "Exactly like you"}, status=200)
+    # some error occured
+    return JsonResponse({"error": ""}, status=400)
