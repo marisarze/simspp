@@ -85,26 +85,12 @@ WSGI_APPLICATION = 'simspp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
+if DEBUG==True:
+    DATABASES = {
 
-    'default': {
+        'default': DATABASE_SETTINGS
 
-        'ENGINE': DATABASE_SETTINGS['ENGINE'],
-
-        'NAME': DATABASE_SETTINGS['NAME'],
-
-        'USER': DATABASE_SETTINGS['USER'],
-
-        'PASSWORD': DATABASE_SETTINGS['PASSWORD'],
-
-        'HOST': DATABASE_SETTINGS['HOST'],
-
-        'PORT': DATABASE_SETTINGS['PORT'],
-
-        'OPTIONS': DATABASE_SETTINGS['OPTIONS'],
     }
-
-}
 
 
 # Password validation
