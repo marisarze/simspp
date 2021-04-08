@@ -18,8 +18,9 @@ try:
     SECRET_KEY = os.environ['SECRET_KEY']
 except:
     from .secret_settings import SECRET_KEY
+    from .secret_settings import DATABASE_SETTINGS
 
-from .secret_settings import DATABASE_SETTINGS
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
