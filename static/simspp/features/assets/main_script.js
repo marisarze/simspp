@@ -382,10 +382,10 @@ $(function() {
                         return false;
                     }
                     let raw_scope = row.find(".scope_input").val();
-                    if (raw_scope.length==0){
-                        row.find(".scope_input").addClass("nonvalid");
-                        return false;
-                    }
+                    // if (raw_scope.length==0){
+                    //     row.find(".scope_input").addClass("nonvalid");
+                    //     return false;
+                    // }
                     let regexp = /(?<param>[a-zA-Z]+\d*) *= *(?<value>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[ ,;]*/gm;
                     let matched_iter = raw_scope.matchAll(regexp);
                     let matched_array = Array.from(matched_iter);
