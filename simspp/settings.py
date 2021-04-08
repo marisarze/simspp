@@ -19,6 +19,8 @@ try:
 except:
     from .secret_settings import SECRET_KEY
 
+from .secret_settings import DATABASE_SETTINGS
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -83,10 +85,24 @@ WSGI_APPLICATION = 'simspp.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+
+        'ENGINE': DATABASE_SETTINGS['ENGINE'],
+
+        'NAME': DATABASE_SETTINGS['NAME'],
+
+        'USER': DATABASE_SETTINGS['USER'],
+
+        'PASSWORD': DATABASE_SETTINGS['PASSWORD'],
+
+        'HOST': DATABASE_SETTINGS['HOST'],
+
+        'PORT': DATABASE_SETTINGS['PORT'],
+
+        'OPTIONS': DATABASE_SETTINGS['OPTIONS'],
     }
+
 }
 
 
@@ -141,3 +157,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 if not DEBUG:
     django_heroku.settings(locals())
+    import dj_database_url
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
