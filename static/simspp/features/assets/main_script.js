@@ -328,19 +328,24 @@ $(function() {
         let layer = $(this).closest(".layer")[0];
         let layer_data = validate_layer(layer);
         if (layer_data){
-            console.log("layer_data: ", layer_data)
+            //console.log("layer_data: ", layer_data)
             send_data(layer_data);
         }        
     })
 
 
     function send_data(target){
+        console.log('stringified', JSON.stringify(target));
+        target = JSON.stringify(target);
+        // console.log('stringified', JSON.stringify(target));
+        // target = target.replace(/\"/g, "'");
+        // console.log('stringified', JSON.stringify(target));
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
             url: "/ajax/handle_layer",
-            data: JSON.stringify(target),
+            data: target,
             success: function(result) {
                     $(".info_message").text(JSON.stringify(result));
                     }
@@ -370,7 +375,7 @@ $(function() {
             let rows = layer.find(".base_row");
             for (let row of rows){
                 row = $(row);
-                console.log("row is: ", row);
+                //console.log("row is: ", row);
                 let index = rows.index(row);
                 if (row.find(".function_input").prop("disabled")){
                     data.wavelength[index] = layer[0].wavelength[index];

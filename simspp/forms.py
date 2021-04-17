@@ -19,7 +19,9 @@ class Layer_form(ModelForm):
 
         functions = cleaned_data.get("functions")
         scopes = cleaned_data.get("scopes")
-        if functions and scopes:
+        if functions:
+            
+
 
         
 
