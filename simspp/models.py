@@ -3,8 +3,11 @@ from django.db.models.fields import DateField
 
 
 class Layer(models.Model):
+    name = models.CharField(max_length=200, blank=True)
     type_name = models.CharField(max_length=200)
     mixture = models.ManyToManyField("self", symmetrical=False, blank=True, null=True, through="Component")
+    functions = models.CharField(max_length=200, blank=True, null=True)
+    scopes = models.CharField(max_length=200, blank=True, null=True)
     refractive = models.BinaryField(blank=True, null=True)
     wavelength = models.BinaryField(blank=True, null=True)
     created = models.DateTimeField(auto_now=True)
@@ -36,4 +39,4 @@ class Component(models.Model):
     ratio = models.FloatField()
 
     def __str__(self):
-        return {self.name:self.ration}
+        return f"|{self.name}: {self.ratio}|"
