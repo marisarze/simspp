@@ -20,7 +20,7 @@ def load_ema(request):
 
 @csrf_protect
 def handle_layer(request):
-    some_dict = request.GET
+    some_dict = json.loads(list(request.GET.dict().keys())[0])
     print(some_dict)
     #print("some is: ", some_dict["refractive[0][]"])
     if request.is_ajax:

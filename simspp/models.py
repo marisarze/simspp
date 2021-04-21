@@ -8,8 +8,8 @@ class Layer(models.Model):
     mixture = models.ManyToManyField("self", symmetrical=False, blank=True, null=True, through="Component")
     functions = models.CharField(max_length=200, blank=True, null=True)
     scopes = models.CharField(max_length=200, blank=True, null=True)
-    refractive = models.BinaryField(blank=True, null=True)
-    wavelength = models.BinaryField(blank=True, null=True)
+    refractive = models.CharField(blank=True, null=True)
+    wavelength = models.CharField(blank=True, null=True)
     created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
