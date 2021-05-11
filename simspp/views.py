@@ -18,14 +18,15 @@ def load_base(request):
 def load_ema(request):
     return render(request, 'simspp/features/ema.html')
 
-@csrf_protect
+
 def handle_layer(request):
-    some_dict = json.loads(list(request.GET.dict().keys())[0])
-    print(some_dict)
-    #print("some is: ", some_dict["refractive[0][]"])
-    if request.is_ajax:
-        return JsonResponse(request.GET.dict(), status=200)
-        return JsonResponse({"message": "Exactly like you"}, status=200)
+    print('request method', request.method)
+    # some_dict = json.loads(list(request.GET.dict().keys())[0])
+    # print(some_dict)
+    # #print("some is: ", some_dict["refractive[0][]"])
+    # if request.is_ajax:
+    #     return JsonResponse(request.GET.dict(), status=200)
+    #     return JsonResponse({"message": "Exactly like you"}, status=200)
     
     # some error occured
     return JsonResponse({"error": ""}, status=400)

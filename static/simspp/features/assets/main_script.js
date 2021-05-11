@@ -25,6 +25,10 @@ $(function() {
     //     layer_div = data;
     // })
 
+    var csrftoken = Cookies.get('csrftoken');
+
+
+
     $(window).keydown(function(event){
         if(event.keyCode == 13) {
           event.preventDefault();
@@ -113,6 +117,7 @@ $(function() {
         base_description.slideDown(animation_duration);
         ema_description.slideUp(animation_duration);
     })
+
 
     $(document).on('click', ".choice_ema_btn", function(){
         let base_description = $(this).closest(".layer_body").find(".base_description");
@@ -339,13 +344,23 @@ $(function() {
         target = JSON.stringify(target);
         // console.log('stringified', JSON.stringify(target));
         // target = target.replace(/\"/g, "'");
-        // console.log('stringified', JSON.stringify(target));
+        // console.log('stringified', JSON.stringify(target));\
+
+        // $.post(
+        //     "/ajax/handle_layer",
+        //     target,
+        //     function(result) {
+        //     $(".info_message").text(JSON.stringify(result));
+        //     }
+        // )
         $.ajax({
-            type: 'GET',
+            method: "POST",
+            type: "POST",
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded; charset=utf-8',
             url: "/ajax/handle_layer",
             data: target,
+            headers: {'X-CSRFToken': csrftoken},
             success: function(result) {
                     $(".info_message").text(JSON.stringify(result));
                     }
