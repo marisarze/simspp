@@ -8,8 +8,8 @@ class Layer(models.Model):
     mixture = models.ManyToManyField("self", symmetrical=False, blank=True, null=True, through="Component")
     functions = models.CharField(max_length=200, blank=True, null=True)
     scopes = models.CharField(max_length=200, blank=True, null=True)
-    refractive = models.CharField(blank=True, null=True)
-    wavelength = models.CharField(blank=True, null=True)
+    refractive = models.CharField(max_length=200,blank=True, null=True)
+    wavelength = models.CharField(max_length=200,blank=True, null=True)
     created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -28,7 +28,7 @@ class Structure(models.Model):
 class LSrelation(models.Model):
     layer = models.ForeignKey(Layer, on_delete=models.CASCADE)
     structure = models.ForeignKey(Structure, on_delete=models.CASCADE)
-    layer_id = models.PositiveIntegerField()
+    relation_id = models.PositiveIntegerField()
 
     def __str__(self):
         return f"{self.layer.type}-layer with index {self.layer_id}"

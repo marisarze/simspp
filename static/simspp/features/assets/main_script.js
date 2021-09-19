@@ -354,7 +354,6 @@ $(function() {
         //     }
         // )
         $.ajax({
-            method: "POST",
             type: "POST",
             dataType: 'json',
             contentType: 'application/x-www-form-urlencoded; charset=utf-8',

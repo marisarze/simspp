@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_protect
+from .forms import *
 import json
 
 def initial_index(request):
@@ -21,12 +21,13 @@ def load_ema(request):
 
 def handle_layer(request):
     print('request method', request.method)
-    # some_dict = json.loads(list(request.GET.dict().keys())[0])
-    # print(some_dict)
-    # #print("some is: ", some_dict["refractive[0][]"])
+    layer_entry = Layer_form(request.POST)
+    some_dict = json.loads(list(request.POST.dict().keys())[0])
+    print(some_dict)
+    #print("some is: ", some_dict["refractive[0][]"])
     # if request.is_ajax:
-    #     return JsonResponse(request.GET.dict(), status=200)
-    #     return JsonResponse({"message": "Exactly like you"}, status=200)
+    return JsonResponse(some_dict, status=200)
+    #return JsonResponse({"message": "Exactly like you"}, status=200)
     
     # some error occured
-    return JsonResponse({"error": ""}, status=400)
+    # return JsonResponse({"error": ""}, status=400)
