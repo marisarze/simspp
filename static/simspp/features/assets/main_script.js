@@ -27,7 +27,20 @@ $(function() {
 
     var csrftoken = Cookies.get('csrftoken');
 
+    var structure_data = [];
 
+    var layer_data_sample = {
+        type : null,
+        thickness : null,
+        wavelength : [null, null],
+        refractive : [null, null],
+        nofunc : [null, null],
+        functions : [null, null],
+        scopes : [null, null],
+        file_names : [null, null],
+        components : [null],
+        fractions : [null]
+    };
 
     $(window).keydown(function(event){
         if(event.keyCode == 13) {
@@ -61,26 +74,31 @@ $(function() {
 
     
     function update_names(){
-        if ($("#layers_container >.row").length<1){
+        if ($(".layer").length<1){
             $("#layers_container").append(get_new_layer());
             
         }
         let names = $("#layers_container").find(".layer_name_btn");
-        
         $.each(names, function (ind, elem) {
-            $(this).find(".number_part").html(ind); 
+            let message;
+            if (ind==0) 
+                message = ind+" (substrate)";
+            else
+                message = ind; 
+            $(this).find(".number_part").html(message); 
         });
     }
-    
+
+    function get_layer_index(){
+        let this_layer = $(this).closest(".layer");
+        return $(".layer").index(this_layer);
+    }
 
     function get_new_layer(){
         let layer_description = $("#layer_description").html();
         let layer_element = $(layer_description);
-        layer_element[0].type = "base";
-        layer_element[0].wavelength = [null,null];
-        layer_element[0].refractive = [null,null];
-        layer_element[0].functions = [null,null];
-        layer_element[0].scopes = [null,null];
+        layer_element[0].refractive = [null, null];
+        layer_element[0].wavelength = [null, null];
         layer_element.find(".ema_description").hide();
         return layer_element;
     }
@@ -96,34 +114,31 @@ $(function() {
 
     $(document).on('click', ".plus_layer_btn", function(){
         let new_layer = get_new_layer().toggle();
-        $(this).closest(".layer").after(new_layer);
+        let this_layer = $(this).closest(".layer");
+        this_layer.after(new_layer);
         new_layer.toggle(animation_duration);
     })
 
     $(document).on('click', ".minus_layer_btn", function(){
-        let target = $(this).closest(".layer");
-        deleteTarget(target);
-        //target.toggle(animation_duration, target.remove);
-        
+        let this_layer = $(this).closest(".layer");
+        deleteTarget(this_layer);        
     })
-
 
     $(document).on('click', ".choice_base_btn", function(){
         let base_description = $(this).closest(".layer_body").find(".base_description");
         let ema_description = $(this).closest(".layer_body").find(".ema_description");
         let name_button = $(this).closest(".layer").find(".layer_name_btn");
-        $(this).closest(".layer")[0].type = 'base';
+        $(this).closest(".layer")[0].type = "base";
         name_button.removeClass("btn-secondary").addClass("btn-warning");
         base_description.slideDown(animation_duration);
         ema_description.slideUp(animation_duration);
     })
 
-
     $(document).on('click', ".choice_ema_btn", function(){
         let base_description = $(this).closest(".layer_body").find(".base_description");
         let ema_description = $(this).closest(".layer_body").find(".ema_description");
         let name_button = $(this).closest(".layer").find(".layer_name_btn");
-        $(this).closest(".layer")[0].type = 'ema';
+        $(this).closest(".layer")[0].type = "ema";
         name_button.removeClass("btn-warning").addClass("btn-secondary");
         base_description.slideUp(animation_duration);
         ema_description.slideDown(animation_duration);
@@ -256,30 +271,28 @@ $(function() {
     }
 
     $(document).on('focusout', ".component_name, .fraction", function(){
-        let content_name = $(this).closest(".layer").find('.content_part');
-        let rows = $(this).closest(".ema_description").children();
+        let layer_name = $(this).closest(".layer").find('.content_part');
+        let rows = $(this).closest(".ema_description").find("component_info");
         //console.log(rows);
         let dict = new Object();
         let result = "Layer";
         for (row of rows){
             row = $(row);
-            if (row.children().length>1){
-                let name = row.find(".component_name").val();
-                let fraction = row.find(".fraction").val();
-                if (name.length>0 && !isNaN(fraction) && fraction.length>0){
-                    dict[name] = parseFloat(fraction);
-                }   
+            let name = row.find(".component_name").val();
+            let fraction = row.find(".fraction").val();
+            if (name.length>0 && !isNaN(fraction) && fraction.length>0){
+                dict[name] = parseFloat(fraction);
             }
         }
         if (!($.isEmptyObject(dict))){
             result = JSON.stringify(dict);
             result = result.replace(/"([^"]+)":/g, '$1:');
         }            
-        content_name.text(result);
+        layer_name.text(result);
     })
 
 
-    $(document).on('focusout', ".matter_name", function(){
+    $(document).on('keyup paste', ".matter_name", function(){
         let content_name = $(this).closest(".layer").find('.content_part');
         content = $(this).val();
         if (content.length>20) content = content.slice(0,19)+"...";
@@ -307,24 +320,19 @@ $(function() {
     $(document).on('focusout', ".thickness", function(event){
         let raw_val = $(this).val();
         let regexp = /^(?<thickness>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)[ ]*(?<magnitude>([aA]ngstrom)|(mm)|(m)|(nm)|(um)|(cm)|(A)?)/;
-        let respect = {nm: 1e-9, A:1e-10, Angstrom:1e-10, mm:1e-3, um:1e-6, cm:1e-2, m:1};
+        //let respect = {nm: 1e-9, A:1e-10, Angstrom:1e-10, mm:1e-3, um:1e-6, cm:1e-2, m:1};
         let matched_array = raw_val.match(regexp);
-        //matched_array = Array.from(matched_iter);
         if (matched_array!=null){
             let thickness = matched_array[1];
             let magnitude = matched_array[3];
             if (matched_array[3]==undefined || matched_array[3]==""){
                 $(this).closest(".layer").find(".thickness_part").text(thickness + " m");
-                thickness = Number(thickness);
             } else {
                 magnitude = magnitude=="Angstrom" ? A : magnitude; 
                 $(this).closest(".layer").find(".thickness_part").text(thickness + " " + magnitude);
-                thickness = Number(thickness)*respect[magnitude];
             }
-            $(this).closest(".layer")[0].thickness = thickness;
         } else {
             $(this).closest(".layer").find(".thickness_part").text(" ");
-            $(this).closest(".layer")[0].thickness = null;
         }
     })
 
@@ -367,7 +375,7 @@ $(function() {
     };
 
     function validate_layer(layer){
-        let data = new Object();
+        data = new Object();
         layer = $(layer);
         data.type = layer[0].type;
         if (!layer[0].thickness){
@@ -438,8 +446,30 @@ $(function() {
     }
 
     
+    function get_raw_layer_data(layer){
+        temp = {};
+        temp.type = layer.type;
+        layer = $(layer);
+        temp.thickness = $(layer).find(".thickness").val();
+        temp.matter_name = $(layer).find(".matter_name").val();
+        temp.functions = [null, null];
+        temp.scopes = [null, null]; 
+
+    }
     
-    
+    // let layers = $('.layer');
+    //     let content = [];
+    //     for (let layer of layers){
+    //         let temp = {};
+    //         for (let property in layer){
+    //             temp[property]=layer[property];
+    //         }
+    //         layer = $(layer);
+    //         temp.matter_name = layer.find(".matter_name").val();
+    //         temp.thickness = layer.find(".thickness").val();
+    //         let base_part = layer.find()
+
+    //     } 
 
     // $("#layers_container").bind('DOMNodeInserted', function() {
     //     alert('node inserted');
