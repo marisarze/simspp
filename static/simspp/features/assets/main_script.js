@@ -452,7 +452,8 @@ $(function() {
         layer = $(layer);
         temp.thickness = $(layer).find(".thickness").val();
         temp.matter_name = $(layer).find(".matter_name").val();
-        temp.functions = [null, null];
+        temp.functions = [];
+        
         temp.scopes = [null, null]; 
 
     }
