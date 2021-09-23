@@ -97,8 +97,9 @@ $(function() {
     function get_new_layer(){
         let layer_description = $("#layer_description").html();
         let layer_element = $(layer_description);
-        layer_element[0].refractive = [null, null];
-        layer_element[0].wavelength = [null, null];
+        for (let property in layer_data_sample){
+            layer_element[0][property] = layer_data_sample[property]
+        }
         layer_element.find(".ema_description").hide();
         return layer_element;
     }
@@ -236,6 +237,9 @@ $(function() {
                     K.push(Number(result.groups.K))
                     
                 }
+                let row = clicked_button.closest(".base_row");
+                let index = layer.find(".base_row").index(row);
+                layer[0].file_names[index] = name;
                 layer[0].wavelength = [wavelength, wavelength];
                 layer[0].refractive = [N, K];
                 layer.find(".function_input").prop("disabled", true);
@@ -248,15 +252,17 @@ $(function() {
             matched_array = Array.from(matched_iter);
             if (matched_array.length>0){
                 let row = clicked_button.closest(".base_row");
+                let index = layer.find(".base_row").index(row);
                 let func_input = row.find(".function_input");
                 let scope_input = row.find(".scope_input");
-                let index = layer.find(".base_row").index(row);
+                
                 let wavelength = [];
                 let part = [];
                 for (let result of matched_array){
                     wavelength.push(Number(result.groups.wavelength));
                     part.push(Number(result.groups.N))
                 }
+                layer[0].file_names[index] = name;
                 layer[0].wavelength[index] = wavelength;
                 layer[0].refractive[index] = part;
                 func_input.prop("disabled", true);
@@ -453,8 +459,15 @@ $(function() {
         temp.thickness = $(layer).find(".thickness").val();
         temp.matter_name = $(layer).find(".matter_name").val();
         temp.functions = [];
-        
-        temp.scopes = [null, null]; 
+        temp.scopes = [];
+        temp.nofunc = [];
+        function_inputs = $(".function_input");
+        scope_inputs = $(".scope_input");
+        for (let i=0;i<2;i++){
+            temp.functions.push($(function_inputs[i]).val());
+            temp.scopes.push($(scope_inputs[i]).val());
+            temp.nofunc.push($(function_inputs[i]).prop("disabled"));
+        } 
 
     }
     
